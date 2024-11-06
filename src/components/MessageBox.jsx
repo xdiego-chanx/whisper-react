@@ -1,15 +1,52 @@
-export default function MessageBox() {
+import PropTypes from "prop-types";
+
+export default function MessageBox({code}) {
     const resizeTextbox = (event) => {
         const box = event.target;
         box.style.height = "auto";
         box.style.height = box.scrollHeight + "px";
     }
-    const sendOnEnter = (event) => {
-        // const box = event.target as HTMLTextAreaElement;
+    const sendOnEnter = async (event) => {
 
         if (event.key == "Enter" && !event.shiftKey) {
             event.preventDefault();
-            /*Send message*/
+
+            const message = event.target.value;
+            if(!message.trim()) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    throw new Error("No token found");
+                }
+
+                const response = await fetch(`https://2ru0vyjyh2.execute-api.us-east-2.amazonaws.com/messages/${code}`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        code: code,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to send message");
+                }
+
+                const data = await response.json();
+                console.log("Message sent:", data);
+                event.target.value = "";
+
+            } catch(error) {
+                console.error(error);
+            }
+
+            void code;
         }
     }
 
@@ -28,4 +65,8 @@ export default function MessageBox() {
         </div>
 
     );
+}
+
+MessageBox.propTypes = {
+    code: PropTypes.string.isRequired
 }
