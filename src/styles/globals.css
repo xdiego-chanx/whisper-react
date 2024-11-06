@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    color-scheme: light;
+    background-color: white;
+    color: black;
+}
+
+.user-form-container {
+    background-color: white;
+    color: black;
+    padding: 1rem 2rem;
+    width: 100%;
+    max-width: 36rem;
+}
+
+.input-container {
+    margin-bottom: 1.5rem;
+}
+
+.input-label {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    padding: 0.25rem 0.5rem;
+    flex: 1 1 0%;
+    background-color: transparent;
+    border: 1px solid #A3A3A3 /*neutral-400*/;
+    border-radius: 0.25rem;
+    transition-duration: 150ms;
+}
+
+.form-input:focus {
+    outline: 1px solid #60A5FA /*blue-400*/;
+}
+
+.user-form-container {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.25);
+}
