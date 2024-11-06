@@ -4,7 +4,7 @@ import DateWrapper from "../lib/DateWrapper";
 
 export default function MessageBubble({ self, message, sendTime }) {
     return (
-        <div className={"flex w-full " + (self ? "justify-end" : "justify-start")}>
+        <div className={"flex w-full pointer-events-none " + (self ? "justify-end" : "justify-start")}>
             <div className={"w-fit flex flex-col max-w-lg rounded-lg"} >
                 <div className={(self ? "bg-blue-300" : "bg-neutral-200") + " px-4 py-2 rounded-lg"}>
 

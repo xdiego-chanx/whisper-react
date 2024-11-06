@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 
+// eslint-disable-next-line no-unused-vars
 export default function MessageBox({code}) {
     const resizeTextbox = (event) => {
         const box = event.target;
@@ -12,41 +13,11 @@ export default function MessageBox({code}) {
             event.preventDefault();
 
             const message = event.target.value;
+
             if(!message.trim()) {
                 return;
             }
 
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    throw new Error("No token found");
-                }
-
-                const response = await fetch(`https://2ru0vyjyh2.execute-api.us-east-2.amazonaws.com/messages/${code}`, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        code: code,
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to send message");
-                }
-
-                const data = await response.json();
-                console.log("Message sent:", data);
-                event.target.value = "";
-
-            } catch(error) {
-                console.error(error);
-            }
-
-            void code;
         }
     }
 
