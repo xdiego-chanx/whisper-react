@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 // eslint-disable-next-line no-unused-vars
-export default function MessageBox({code}) {
+export default function MessageBox({code, sendMessage}) {
     const resizeTextbox = (event) => {
         const box = event.target;
         box.style.height = "auto";
@@ -12,12 +12,14 @@ export default function MessageBox({code}) {
         if (event.key == "Enter" && !event.shiftKey) {
             event.preventDefault();
 
-            const message = event.target.value;
+            const message = event.target.value.trim();
 
-            if(!message.trim()) {
+            if(!message) {
                 return;
             }
+            sendMessage(message);
 
+            event.target.value = "";
         }
     }
 
@@ -39,5 +41,6 @@ export default function MessageBox({code}) {
 }
 
 MessageBox.propTypes = {
-    code: PropTypes.string.isRequired
+    code: PropTypes.string.isRequired,
+    sendMessage: PropTypes.func.isRequired
 }
