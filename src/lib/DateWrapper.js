@@ -30,7 +30,7 @@ export default class DateWrapper extends Date {
         const timestamp = [];
         const now = new DateWrapper();
 
-        let date = `${this.getFullYear()}-${this.getMonth() + 1}-${this.getDate()}`;
+        let date = `${this.getFullYear()}-${String(this.getMonth() + 1).padStart(2, "0")}-${String(this.getDate()).padStart(2, "0")}`;
 
         if(this.getFullYear() == now.getFullYear() && this.getMonth() == now.getMonth()) {
             if(this.getDate() == now.getDate()) {

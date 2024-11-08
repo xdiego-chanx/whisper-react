@@ -44,7 +44,8 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={authenticated ? <DashboardView/> : <Navigate to="/login"/>}/>
+                <Route path="/" element={authenticated ? <Navigate to="/dashboard"/> : <Navigate to="/login"/>}/>
+                <Route path="/dashboard" element={authenticated ? <DashboardView/> : <Navigate to="/login"/>}/>
                 <Route path="/login" element={<LogInView/>} />
                 <Route path="/signup" element={<SignUpView/>} />
                 <Route path="/conversations/:code" element={authenticated ? <DashboardView/> : <Navigate to="/login"/> } />
