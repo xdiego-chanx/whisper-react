@@ -51,7 +51,7 @@ export default function DashboardView() {
                 console.log("WebSocket already open");
             }
 
-            ws.current = new WebSocket("wss://2pogrf9hqc.execute-api.us-east-2.amazonaws.com/production/");
+            ws.current = new WebSocket("wss://2k9ligtz1d.execute-api.us-east-2.amazonaws.com/production/");
             
             ws.current.onopen = () => {
                 console.log("WebSocket connected");

@@ -1,7 +1,7 @@
 import mysql from "mysql2/promise";
 
 const connection = await mysql.createConnection({
-    host: "whisper-reactr.cpsuieueqy00.us-east-2.rds.amazonaws.com",
+    host: "whisper-react.cpsuieueqy00.us-east-2.rds.amazonaws.com",
     port: 3306,
     user: "admin",
     password: "PublicStaticRubielGOD_11",
