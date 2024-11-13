@@ -43,7 +43,7 @@ export default function DashboardView() {
         };
 
         if (code) fetchMessages();
-    }, [code]);
+    }, [code, messages]);
 
     useEffect(() => {
         const connectWebSocket = () => {
@@ -62,12 +62,11 @@ export default function DashboardView() {
             ws.current.onmessage = (event) => {
                 const response = JSON.parse(event.data);
 
-                console.log(response);
-
-                console.log("Sent and received back: " + response.body);
+  
+                console.log("Sent and received back: " + response.message);
                 
                 if(response.statusCode === 200) {
-                    setMessages((prevMessages) => [...prevMessages, response.body]);
+                    setMessages((prevMessages) => [...prevMessages, response.message]);
                 }
 
             }
@@ -92,9 +91,7 @@ export default function DashboardView() {
         }
     }, [code]);
 
-
     const sendMessage = (message) => {
-        console.log("sendMessage called");
         
         const token = localStorage.getItem("token");
         if (!token) {
@@ -138,12 +135,3 @@ export default function DashboardView() {
         </main>
     );
 }
-
-// const message = {
-//     content: "Que xopa",
-//     from_code: "60fb50d1-fe9d-4823-86b0-8ff49881d974",
-//     id: 1,
-//     send_time: "2024-11-06T19:23:27.000Z",
-//     user_from: 1,
-//     user_to: 2,
-// }

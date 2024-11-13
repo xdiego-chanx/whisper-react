@@ -17,7 +17,6 @@ const mgr = new AWS.ApiGatewayManagementApi({
 const getUserId = (token) => {
     const decoded = jwt.verify(token, "PublicStaticRubielGOD11");
     const code = decoded.userId;
-
     return code;
 }
 
@@ -57,13 +56,16 @@ const sendMessage = async (body) => {
         return { statusCode: 500, body: "Failed to send message to recipient" };
     }
 
-    return { statusCode: 200, body: "Message sent successfully" };
+    return {
+        statusCode: 200,
+        body: JSON.stringify({
+            message: insertedMessage
+        })
+    };
     
 }
 
 export const handler = async (event) => {
-
-    console.log("CONSOLE LOGGED BY ME: \n" + event);
 
     if (event.requestContext) {
         const key = event.requestContext.routeKey;
@@ -80,22 +82,19 @@ export const handler = async (event) => {
                 await connection.execute(`UPDATE users SET connection_id = ? WHERE code = ?`, [connectId, code]);
 
                 return { statusCode: 200, body: "Connection established" };
-                break;
             case "$disconnect":
                 const disconnectId = event.requestContext.connectionId;
                 await connection.execute("UPDATE users SET connection_id = NULL WHERE connection_id = ?", [disconnectId]);
 
                 return { statusCode: 200, body: "Disconnected" };
-                break;
             case "$default":
                 return { statusCode: 400, body: "Invalid route" };
-                break;
             case "sendMessage":
                 const body = JSON.parse(event.body);
-                await sendMessage(body);
-                break;
+                const message = await sendMessage(body);
+                return message; 
         }
 
         await connection.execute("INSERT INTO log (message) VALUES (?)", [`Route accessed: ${key}`]);
     }
-};
+}; 

@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import MessageBubble from "./MessageBubble";
 
-export default function DirectMessage({code}) {
-    const [messages, setMessages] = useState([]);
+export default function DirectMessage({ code, messages }) {
     const [self, setSelf] = useState("");
+
     useEffect(() => {
         const fetchMessages = async () => {
             const token = localStorage.getItem("token");
@@ -30,8 +30,8 @@ export default function DirectMessage({code}) {
                 }
 
                 const data = await response.json();
-                setMessages(data.messages);
-                setSelf(data.self);
+                setSelf(data.self);  // Assuming self info is fetched correctly
+
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }
@@ -41,12 +41,12 @@ export default function DirectMessage({code}) {
     }, [code]);
 
     return (
-        <div className="flex-1 flex flex-col gap-4 ">
+        <div className="flex-1 flex flex-col gap-4">
             {messages.length > 0 ? (
                 messages.map((message, index) => (
                     <MessageBubble
                         key={index}
-                        self={message["from_code"] == self}
+                        self={message["from_code"] === self}
                         message={message["content"]}
                         sendTime={message["send_time"]}
                     />
@@ -54,12 +54,11 @@ export default function DirectMessage({code}) {
             ) : (
                 <div className="text-center text-neutral-400 pointer-events-none">No messages to show...</div>
             )}
-            
         </div>
-        
     );
 }
 
 DirectMessage.propTypes = {
-    code: PropTypes.string.isRequired
-}
+    code: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,  // Make sure this is required
+};
