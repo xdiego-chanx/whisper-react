@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import jwt from "jsonwebtoken";
 
 const connection = await mysql.createConnection({
     host: "whisper-react.cpsuieueqy00.us-east-2.rds.amazonaws.com",
@@ -10,8 +11,13 @@ const connection = await mysql.createConnection({
 
 export const handler = async (event) => {
 
+    const auth = event.headers.Authorization || event.headers.authorization;
+    const token = auth.split(" ")[1];
+    const decoded = jwt.verify(token, "PublicStaticRubielGOD11");
+    const code = decoded.userId;
+
     try {
-        const [rows, fields] = await connection.execute("SELECT * FROM users");
+        const [rows, fields] = await connection.execute("SELECT * FROM users WHERE CODE != ?", [code]);
 
         return {
             statusCode: 200,
