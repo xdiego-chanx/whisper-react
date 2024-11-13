@@ -28,7 +28,7 @@ export default function LogInView() {
 
                 localStorage.setItem("token", token);
 
-                navigate("/");
+                navigate("/dashboard");
             } else {
                 console.error(response.status);
                 console.log(await response.json());
