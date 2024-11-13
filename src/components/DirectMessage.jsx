@@ -1,10 +1,18 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import MessageBubble from "./MessageBubble";
 
 export default function DirectMessage({ code, messages }) {
     const [self, setSelf] = useState("");
+
+    const endRef = useRef(null);
+
+    useEffect(() => {
+        if (endRef.current) {
+            endRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]); 
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -54,11 +62,12 @@ export default function DirectMessage({ code, messages }) {
             ) : (
                 <div className="text-center text-neutral-400 pointer-events-none">No messages to show...</div>
             )}
+            <div ref={endRef} />
         </div>
     );
 }
 
 DirectMessage.propTypes = {
     code: PropTypes.string.isRequired,
-    messages: PropTypes.array.isRequired,  // Make sure this is required
+    messages: PropTypes.array.isRequired,
 };

@@ -42,8 +42,10 @@ export default function DashboardView() {
             }
         };
 
-        if (code) fetchMessages();
-    }, [code, messages]);
+        if (code){
+            fetchMessages();
+        }
+    }, [code]);
 
     useEffect(() => {
         const connectWebSocket = () => {
@@ -63,7 +65,7 @@ export default function DashboardView() {
                 const response = JSON.parse(event.data);
 
   
-                console.log("Sent and received back: " + response.message);
+                console.log("Sent and received back: " + response.message + ". Status code: " + response.statusCode);
                 
                 if(response.statusCode === 200) {
                     setMessages((prevMessages) => [...prevMessages, response.message]);
