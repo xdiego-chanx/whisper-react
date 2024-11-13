@@ -45,7 +45,7 @@ export default function DashboardView() {
         if (code){
             fetchMessages();
         }
-    }, [code]);
+    }, [code, messages]);
 
     useEffect(() => {
         const connectWebSocket = () => {
